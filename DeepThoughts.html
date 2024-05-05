@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en-US">
     <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8" />
     <meta name="Author" content="Devon J. Kelley" />
     <title>Deep Thoughts</title>
@@ -9,8 +9,11 @@
         #content {
             margin-left: auto;
             margin-right: auto;
-            border-left: solid 1px black;
-            border-right: solid 1px black;
+            border-left: solid 3px black;
+            border-right: solid 3px black;
+            max-width: 600px;
+            padding-left: 10px;
+            padding-right: 10px;
         }
         body {
             text-align: center;
@@ -20,30 +23,64 @@
     <body>
         <div id="content">
             <h1>Deep Thoughts</h1>
-            <p id="quote">"It takes courage to grow up and become who you really are."</p>
-            <p id="author">E.E. Cummings</p>
+            <p id="quote">"There should be a quote here!"</p>
+            <p id="author">Author's Name</p>
             <form id="newThought">
-                <p><input type="text" id="thoughtText" value="Your Deep Thought" /></p>
-                <p><input type="text" id="thoughtAuthor" value="Your Name" /></p>
+                <p><input type="text" id="thoughtText" value="New Deep Thought" /></p>
+                <p><input type="text" id="thoughtAuthor" value="Author's Name" /></p>
                 <p><button type="button" id="submit">Submit</button></p>
             </form>
+            <p id="message"></p>
         </div>
     </body>
     <script>
+        // grab all the handles to the page elements we need.
         const thought = document.getElementById("thoughtText");
         const author = document.getElementById("thoughtAuthor");
         const submit = document.getElementById("submit");
         const displayThought = document.getElementById("quote");
         const displayAuthor = document.getElementById("author");
+        const message = document.getElementById("message");
 
+        // try for the localStorage array
+        let thoughtsArray = new Array();
+        if (!localStorage.getItem("thoughtCollection")) {
+            thoughtsArray = [["It takes courage to grow up and become who you really are.", "E.E. Cummings"]];
+        } else {
+            thoughtsArray = JSON.parse(localStorage.getItem("thoughtCollection"));
+        }
+    
+        // assign a random thought from the array to display
+        let randNum = Math.floor(Math.random() * thoughtsArray.length);
+        let quote = thoughtsArray[randNum];
+        displayThought.innerHTML = "\"" + quote[0] + "\"";
+        displayAuthor.innerHTML = quote[1];
+
+        // add action to the click of the button
         submit.addEventListener("click", () => {
             let thoughtText = thought.value;
-            console.log(thoughtText);
             let thoughtAuthor = author.value;
-            console.log(thoughtAuthor);
 
-            displayThought.innerHTML = "\"" + thoughtText + "\"";
-            displayAuthor.innerHTML = thoughtAuthor;
+            // test to make sure they didn't submit the pre-filled values
+            if (thoughtText === "New Deep Thought") {
+                message.innerHTML = "You need to enter a new thought first!";
+                return;
+            }
+            if (thoughtAuthor === "Author's Name") {
+                message.innerHTML = "You need to enter the author's name first!";
+                return;
+            }
+
+            // add the new thought to the array
+            let newThought = [thoughtText, thoughtAuthor];
+            thoughtsArray.push(newThought);
+            console.log(thoughtsArray);
+
+            // store the new array
+            localStorage.setItem("thoughtCollection", JSON.stringify(thoughtsArray));
+
+            // say Thank You for logging a thought!
+            message.innerHTML = "Thought logged. Thank you!"
         });
     </script>
 </html>
