@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en-US">
+    <head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="UTF-8" />
+    <meta name="Author" content="Devon J. Kelley" />
+    <title>Deep Thoughts</title>
+    <style>
+        #content {
+            margin-left: auto;
+            margin-right: auto;
+            border-left: solid 1px black;
+            border-right: solid 1px black;
+        }
+        body {
+            text-align: center;
+        }
+    </style>
+    </head>
+    <body>
+        <div id="content">
+            <h1>Deep Thoughts</h1>
+            <p id="quote">"It takes courage to grow up and become who you really are."</p>
+            <p id="author">E.E. Cummings</p>
+            <form id="newThought">
+                <p><input type="text" id="thoughtText" value="Your Deep Thought" /></p>
+                <p><input type="text" id="thoughtAuthor" value="Your Name" /></p>
+                <p><button type="button" id="submit">Submit</button></p>
+            </form>
+        </div>
+    </body>
+    <script>
+        const thought = document.getElementById("thoughtText");
+        const author = document.getElementById("thoughtAuthor");
+        const submit = document.getElementById("submit");
+        const displayThought = document.getElementById("quote");
+        const displayAuthor = document.getElementById("author");
+
+        submit.addEventListener("click", () => {
+            let thoughtText = thought.value;
+            console.log(thoughtText);
+            let thoughtAuthor = author.value;
+            console.log(thoughtAuthor);
+
+            displayThought.innerHTML = "\"" + thoughtText + "\"";
+            displayAuthor.innerHTML = thoughtAuthor;
+        });
+    </script>
+</html>
